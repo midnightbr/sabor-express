@@ -1,8 +1,5 @@
 import os
-
-restaurantes = [{'nome':'Pizza', 'categoria':'Italiana', 'ativo':False},
-                {'nome':'Lazanha', 'categoria':'Italiana', 'ativo':True},
-                {'nome':'Lamen', 'categoria':'Japonesa', 'ativo':False}]
+from models.restaurante import Restaurante
 
 def exibir_nome_programa():
     print('''
@@ -64,7 +61,7 @@ def cadastrar_restaurante():
     exibir_subtitulo('Cadastro de novo restaurante\n')
     nome_do_restaurante = input('Digite o nome do restaurante: ')
     categoria = input(f'Digite a categoria do restaurante {nome_do_restaurante}: ')
-    restaurantes.append({'nome':nome_do_restaurante, 'categoria':categoria, 'ativo':False})
+    Restaurante(nome_do_restaurante, categoria)
     print(f'O restaurante {nome_do_restaurante} foi cadastrado com sucesso!\n')
     voltar_menu_principal()
 
@@ -75,11 +72,7 @@ def listar_restaurantes():
         - Escreve na tela todos os restaurantes do dicionario
 
     '''
-    exibir_subtitulo('Listando os restaurantes cadastrados:')
-    print(f'  {'Nome do restaurante'.ljust(20)} | {'Categoria'.ljust(20)} | Status')
-    print('--------------------------------------------------------------')
-    for restaurante in restaurantes:
-        print(f'- {restaurante['nome'].ljust(20)} | {restaurante['categoria'].ljust(20)} | {'Ativado' if restaurante['ativo'] else 'Desativado'}')
+    Restaurante.listar_restaurantes()
 
 def ativar_desativar_restaurante():
     '''Está função altera o status do restaurate para ativado e desativado
@@ -93,21 +86,18 @@ def ativar_desativar_restaurante():
     '''
     exibir_subtitulo('Alterando estado do restaurante')
     print('\nRestaurantes cadastrados:')
-    print(f'  {'Nome do restaurante'.ljust(20)} | {'Categoria'.ljust(20)} | Status')
-    print('--------------------------------------------------------------')
-    for restaurante in restaurantes:
-        print(f'- {restaurante['nome'].ljust(20)} | {restaurante['categoria'].ljust(20)} | {'Ativado' if restaurante['ativo'] else 'Desativado'}')
+    Restaurante.listar_restaurantes()
     print()
     nome_restaurante = input('\nDigite o nome do restaurante que deseja alterar o estado: ')
 
     restaurante_encontrado = False
 
-    for restaurante in restaurantes:
+    for restaurante in Restaurante.restaurantes:
         if nome_restaurante == restaurante['nome']:
             restaurante_encontrado = True
-            restaurante['ativo'] = not restaurante['ativo']
+            Restaurante.alternar_estado(restaurante)
             # Usando operação ternaria
-            mensagem = f'O restaurante {nome_restaurante} foi ativado com sucesso' if restaurante['ativo'] else f'O restauraante {nome_restaurante} foi desativado com sucesso'
+            mensagem = f'O restaurante {nome_restaurante} foi ativado com sucesso' if restaurante._ativo else f'O restaurante {nome_restaurante} foi desativado com sucesso'
             print(mensagem)
     if not restaurante_encontrado:
         print(f'Restaurante {nome_restaurante} não encontrado')
