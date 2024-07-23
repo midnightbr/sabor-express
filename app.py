@@ -72,6 +72,7 @@ def listar_restaurantes():
         - Escreve na tela todos os restaurantes do dicionario
 
     '''
+    os.system('cls')
     Restaurante.listar_restaurantes()
 
 def ativar_desativar_restaurante():
@@ -82,7 +83,6 @@ def ativar_desativar_restaurante():
 
         Outputs:
         - Altera o status do restaurante para o inverso que está cadastrado
-
     '''
     exibir_subtitulo('Alterando estado do restaurante')
     print('\nRestaurantes cadastrados:')
@@ -93,7 +93,7 @@ def ativar_desativar_restaurante():
     restaurante_encontrado = False
 
     for restaurante in Restaurante.restaurantes:
-        if nome_restaurante == restaurante['nome']:
+        if nome_restaurante == restaurante._nome:
             restaurante_encontrado = True
             Restaurante.alternar_estado(restaurante)
             # Usando operação ternaria
@@ -112,7 +112,7 @@ def exibir_subtitulo(texto):
     linha = '*' * (len(texto) + 8)
     os.system('cls')
     print(linha)
-    print(f'*   {texto}   *')
+    print(f'*  {texto}  *')
     print(linha)
 
 def opcao_invalida():
